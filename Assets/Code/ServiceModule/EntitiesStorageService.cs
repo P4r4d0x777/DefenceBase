@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Code.DataModule;
 using Code.ECSModule.Components;
 using Code.ECSModule.Events;
+using Code.ProvidersModule;
 using Leopotam.Ecs;
 using UnityEngine;
 
@@ -46,7 +48,23 @@ namespace Code.ServiceModule
         public List<EcsEntity> EnemyEntities => enemyEntities;
 
         public EcsEntity PlayerEntity => playerEntity;
-        
+
+        public void CheckPlayerAgroForEnemies()
+        {
+            if (PlayerEntity.Get<PlayerHeroComponent>().PlayerGameObject
+                    .GetComponent<PlayerProvider>().onPlayerBase == false)
+            {
+                if (EnemyEntities.Count != 0)
+                {
+                    PlayerEntity.Get<PlayerRotateToEnemyEvent>().TargetToRotate = GetNearestEnemy();
+
+                    if (PlayerEntity.Has<HaveWeaponComponent>())
+                    {
+                        PlayerEntity.Get<HaveWeaponComponent>().weapon.Get<WeaponShootEvent>();
+                    }
+                }
+            }
+        }
 
         public Transform GetNearestEnemy()
         {

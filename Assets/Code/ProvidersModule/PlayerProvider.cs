@@ -29,12 +29,7 @@ namespace Code.ProvidersModule
 
                 if (storage.EnemyEntities.Count != 0)
                 {
-                    storage.PlayerEntity.Get<PlayerRotateToEnemyEvent>().TargetToRotate = storage.GetNearestEnemy();
-                    
-                    if (storage.PlayerEntity.Has<HaveWeaponComponent>())
-                    {
-                        storage.PlayerEntity.Get<HaveWeaponComponent>().weapon.Get<WeaponShootEvent>();
-                    }
+                    storage.CheckPlayerAgroForEnemies();
                 }
             }
 

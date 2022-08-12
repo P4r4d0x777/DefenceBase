@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Code.DataModule;
 using Code.ECSModule.Components;
+using Code.ECSModule.Events;
 using Code.ECSModule.Requests;
+using Code.ProvidersModule;
 using Code.ServiceModule;
 using Leopotam.Ecs;
 
@@ -26,8 +28,9 @@ namespace Code.ECSModule.Systems.EnemySystems
                     _sceneData, RuntimeData.storage.PlayerEntity);
                 
                 RuntimeData.storage.AddEnemy(enemies);
-                
-                 
+
+                RuntimeData.storage.CheckPlayerAgroForEnemies();
+
                 spawnerEntity.Get<EnemySpawnerBlockRequest>().Timer = 5f;
             }
         }
