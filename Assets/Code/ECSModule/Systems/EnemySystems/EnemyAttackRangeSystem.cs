@@ -34,6 +34,7 @@ namespace Code.ECSModule.Systems.EnemySystems
                 ref var enemyEntity = ref _filter2.GetEntity(i);
 
                 enemyEntity.Del<EnemyAttackEvent>();
+                enemyEntity.Del<PlayerOnPlayerBaseEvent>();
             }
         }
     }

@@ -43,6 +43,7 @@ namespace Code.ECSModule.Systems.LogicSystems
                     enemy.Get<EnemyHeroComponent>().player.Get<PlayerRotateToEnemyEvent>().TargetToRotate =
                         RuntimeData.storage.GetNearestEnemy();
                 
+                enemy.Get<EnemyHPComponent>().HpGameObject.SetActive(false);
                 // удаляем enemy из мира
                 enemy.Destroy();
             }
@@ -51,7 +52,6 @@ namespace Code.ECSModule.Systems.LogicSystems
             {
                 ref var player = ref playerDeathFilter.Get1(i);
                 ref var playerEntity = ref playerDeathFilter.GetEntity(i);
-                
                 
                 NightPool.Despawn(player.PlayerGameObject);
                 //playerEntity.Destroy();

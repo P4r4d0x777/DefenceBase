@@ -15,4 +15,5 @@ MonoBehaviour:
   playerPrefab: {fileID: 7422523580709376408, guid: 1194e05bf6f23c3488f1b1cf8f928318, type: 3}
   enemyPrefab: {fileID: 7422523580709376408, guid: f8f974e65e841f84bb037428576bd84f, type: 3}
   enemyCount: 20
+  enemyFrequency: 1
   lootPrefab: {fileID: 1592422400347648056, guid: 68313414a463f66488088dec6d6c4cbf, type: 3}

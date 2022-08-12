@@ -11,11 +11,13 @@ namespace Code.ProvidersModule
     public class PlayerProvider : MonoBehaviour
     {
         public EntitiesStorageService storage;
+        public bool onPlayerBase = true;
         
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.layer == 13)
             {
+                onPlayerBase = false;
                 Debug.Log("Join Enemy Base");
                 foreach (var enemy in storage.EnemyEntities)
                 {
@@ -38,7 +40,7 @@ namespace Code.ProvidersModule
             if (other.gameObject.layer == 12)
             {
                 Debug.Log("Join Player Base");
-
+                onPlayerBase = true;
                 foreach (var enemy in storage.EnemyEntities)
                 {
                     enemy.Del<PlayerOnEnemyBaseEvent>();

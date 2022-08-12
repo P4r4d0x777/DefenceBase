@@ -32,6 +32,17 @@ namespace Code.ServiceModule
             if(enemyEntities.Count == 0)
                 WeaponStopShoot();
         }
+        public void AddEnemy(EcsEntity enemy)
+        {
+            enemyEntities.Add(enemy);
+        }
+        public void AddEnemy(List<EcsEntity> enemies)
+        {
+            foreach (var enemyEntity in enemies)
+            {
+                enemyEntities.Add(enemyEntity);
+            }
+        }
         public List<EcsEntity> EnemyEntities => enemyEntities;
 
         public EcsEntity PlayerEntity => playerEntity;

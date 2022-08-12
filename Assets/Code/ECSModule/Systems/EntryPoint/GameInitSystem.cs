@@ -61,47 +61,16 @@ namespace Code.ECSModule.Systems.EntryPoint
 
 
             List<EcsEntity> enemies = new List<EcsEntity>();
-            
-            for (int i = 0; i < _configuration.enemyCount; i++)
-            {
-                EcsEntity enemyEntity = _ecsWorld.NewEntity();
-                
-                ref var enemy = ref enemyEntity.Get<EnemyHeroComponent>();
-                //ref var trigger = ref enemyEntity.Get<OnTriggerExitEvent>();
-                GameObject enemyGameObject = NightPool.Spawn(_configuration.enemyPrefab, MeshPlaneRandomizer.GetSpawnPositionEnemy(_sceneData.EnemyBasePlaneMesh));
-                enemyGameObject.GetComponent<EnemyProvider>().enemyEntity = enemyEntity;
-                enemyGameObject.GetComponent<EnemyProvider>()._world = _ecsWorld;
-                
-                enemy.Agent = enemyGameObject.GetComponent<EnemyView>().Agent;
-                enemy.EnemyGameObject = enemyGameObject.GetComponent<EnemyView>().EnemyGameObject;
-                enemy.target = player.MoveTransform;
-                enemy.player = playerEntity;
-              //  enemy.HP = enemyGameObject.GetComponent<EnemyView>().HP;
-                enemy.Damage = enemyGameObject.GetComponent<EnemyView>().Damage;
-                enemy.Transform = enemyGameObject.transform;
-                enemy.meleeAttackDistance = enemyGameObject.GetComponent<EnemyView>().meleeAttackDistance;
-                
-                // 1 раз взять рефом get чтобы 3 раза не обращаться
-                enemyEntity.Get<EnemyHPComponent>().HP = enemyGameObject.GetComponent<EnemyView>().HP;
-                enemyEntity.Get<EnemyHPComponent>().HPBar = enemyGameObject.GetComponent<EnemyView>().HPBar;
-                enemyEntity.Get<EnemyHPComponent>().HpGameObject = enemyGameObject.GetComponent<EnemyView>().HpGameObject;
 
-                if (LootRandomizer.WillHaveLoot())
-                {
-                    EcsEntity lootEntity = _ecsWorld.NewEntity();
-                    
-                    lootEntity.Get<LootComponent>().spawnTransform = enemyGameObject.GetComponent<EnemyView>().LootTransform;
-                    lootEntity.Get<LootComponent>().lootGameObject = _configuration.lootPrefab;
-                    
-                    enemyEntity.Get<HaveLootComponent>().loot = lootEntity;
-                }
-                
-                enemies.Add(enemyEntity);
-            }
+            enemies = EnemySpawnerService.SpawnEnemies(_configuration.enemyCount, _configuration, ref _ecsWorld, _sceneData, playerEntity);
             RuntimeData.storage = new EntitiesStorageService(enemies, playerEntity);
             //storage = new EntitiesStorageService(enemies, playerEntity, weaponEntity);
             // убрать из плеер тригера и добавить в enemiesstorageservice тут создать это хранилище через конструктор и прокинуть В ТРИГЕР чекер?
             playerGameObject.GetComponent<PlayerProvider>().storage = RuntimeData.storage;
+
+
+            EcsEntity enemySpawner = _ecsWorld.NewEntity();
+            enemySpawner.Get<EnemySpawnerComponent>().enemyFrequency = _configuration.enemyFrequency;
         }
 
         public void InitializePlayer()

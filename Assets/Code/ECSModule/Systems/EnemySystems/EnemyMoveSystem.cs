@@ -14,7 +14,9 @@ namespace Code.ECSModule.Systems.EnemySystems
             foreach (var i in moveToBaseFilter)
             {
                 ref var enemy = ref moveToBaseFilter.Get1(i);
-                enemy.Agent.destination = new Vector3(0, 0, 20);
+                //enemy.Agent.destination = new Vector3(0, 0, 20);
+                enemy.Agent.destination = new Vector3(enemy.Transform.position.x, enemy.Transform.position.y, 0);
+                moveToBaseFilter.GetEntity(i).Del<PlayerOnPlayerBaseEvent>();
             }   
             
             foreach (var i in moveToPlayerFilter)

@@ -11,6 +11,7 @@ namespace Code.DataModule
         [Header("Enemy")] 
         public GameObject enemyPrefab;
         [Tooltip("Count of enemies on spawn")] public int enemyCount;
+        [Tooltip("Count of enemies on spawn per Timer")] public int enemyFrequency;
 
         [Header("Loot")] 
         public GameObject lootPrefab;

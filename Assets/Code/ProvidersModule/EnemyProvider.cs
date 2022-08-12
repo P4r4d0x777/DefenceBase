@@ -13,12 +13,12 @@ namespace Code.ProvidersModule
         {
             if (other.gameObject.layer == 15)
             {
-                // Debug.Log("hit");
+               // Debug.Log("hit");
                 
-                ref var damageEntity = ref _world.NewEntity().Get<BulletDoDamageEvent>();
+                EcsEntity damageEntity = _world.NewEntity();
                 
-                damageEntity.target = enemyEntity;
-                damageEntity.bullet = other.gameObject.GetComponent<BulletProvider>().bulletEntity;
+                damageEntity.Get<BulletDoDamageEvent>().target = enemyEntity;
+                damageEntity.Get<BulletDoDamageEvent>().bullet = other.gameObject.GetComponent<BulletProvider>().bulletEntity;
                 
             }
         }
