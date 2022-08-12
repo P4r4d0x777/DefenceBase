@@ -29,6 +29,7 @@ namespace Code.ECSModule.Systems.EntryPoint
                 .Add(new PlayerInputSystem())
                 .Add(new PlayerMoveSystem())
                 .Add(new PlayerRotationSystem())
+                .Add(new PlayerAnimatorSystem())
                 .Add(new EnemyMoveSystem())
                 .Add(new EnemyAttackRangeSystem())
                 .Add(new EnemyAttackExecuteSystem())

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Code.DataModule;
 using Code.ECSModule.Components;
 using Code.ECSModule.Events;
@@ -49,16 +50,17 @@ namespace Code.ServiceModule
 
         public EcsEntity PlayerEntity => playerEntity;
 
-        public void CheckPlayerAgroForEnemies()
+        public async void CheckPlayerAgroForEnemies()
         {
-            if (PlayerEntity.Get<PlayerHeroComponent>().PlayerGameObject
-                    .GetComponent<PlayerProvider>().onPlayerBase == false)
+            if (RuntimeData.PlayerOnPlayerBase == false)
             {
                 if (EnemyEntities.Count != 0)
                 {
                     PlayerEntity.Get<PlayerRotateToEnemyEvent>().TargetToRotate = GetNearestEnemy();
 
-                    if (PlayerEntity.Has<HaveWeaponComponent>())
+                    // to synchronize animations and bullets shoot
+                    await Task.Delay(500);
+                    if (PlayerEntity.Has<HaveWeaponComponent>() &&RuntimeData.PlayerOnPlayerBase == false)
                     {
                         PlayerEntity.Get<HaveWeaponComponent>().weapon.Get<WeaponShootEvent>();
                     }

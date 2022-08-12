@@ -53,8 +53,7 @@ namespace Code.ServiceModule
                     enemyEntity.Get<HaveLootComponent>().loot = lootEntity;
                 }
 
-                if (playerEntity.Get<PlayerHeroComponent>().PlayerGameObject.GetComponent<PlayerProvider>()
-                    .onPlayerBase)
+                if (RuntimeData.PlayerOnPlayerBase == true)
                 {
                     enemyEntity.Get<PlayerOnPlayerBaseEvent>();
                     enemy.animator.SetWalk();

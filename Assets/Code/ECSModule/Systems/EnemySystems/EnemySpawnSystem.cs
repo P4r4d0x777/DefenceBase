@@ -28,6 +28,7 @@ namespace Code.ECSModule.Systems.EnemySystems
                     _sceneData, RuntimeData.storage.PlayerEntity);
                 
                 RuntimeData.storage.AddEnemy(enemies);
+                
 
                 RuntimeData.storage.CheckPlayerAgroForEnemies();
 

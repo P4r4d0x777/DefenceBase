@@ -5,7 +5,7 @@ namespace CodeBase.Hero
     public class EnemyAnimator : MonoBehaviour
     {
         private static readonly int Walk = Animator.StringToHash("Walking");
-        private static readonly int Idle = Animator.StringToHash("Dyndle");
+        private static readonly int Idle = Animator.StringToHash("DynIdle");
         private static readonly int Run = Animator.StringToHash("Running");
         //public string Actually;
 

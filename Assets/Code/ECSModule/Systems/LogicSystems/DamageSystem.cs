@@ -29,7 +29,7 @@ namespace Code.ECSModule.Systems.LogicSystems
                 {
                     e.target.Get<DeathEvent>();
                 }
-
+                
                 if (!filter.IsEmpty())
                     filter.GetEntity(i).Destroy();
             }

@@ -1,3 +1,5 @@
+using System;
+using Code.DataModule;
 using Code.ECSModule.Components;
 using Code.ECSModule.Events;
 using Code.ServiceModule;
@@ -11,13 +13,12 @@ namespace Code.ProvidersModule
     public class PlayerProvider : MonoBehaviour
     {
         public EntitiesStorageService storage;
-        public bool onPlayerBase = true;
-        
+
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.layer == 13)
             {
-                onPlayerBase = false;
+                RuntimeData.PlayerOnPlayerBase = false;
                 Debug.Log("Join Enemy Base");
                 foreach (var enemy in storage.EnemyEntities)
                 {
@@ -36,9 +37,10 @@ namespace Code.ProvidersModule
             if (other.gameObject.layer == 12)
             {
                 Debug.Log("Join Player Base");
-                onPlayerBase = true;
+                RuntimeData.PlayerOnPlayerBase = true;
                 foreach (var enemy in storage.EnemyEntities)
                 {
+                    enemy.Del<EnemyAttackEvent>();
                     enemy.Del<PlayerOnEnemyBaseEvent>();
                     enemy.Get<PlayerOnPlayerBaseEvent>();
                     enemy.Get<EnemyHeroComponent>().animator.SetWalk();

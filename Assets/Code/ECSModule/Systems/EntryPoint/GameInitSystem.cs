@@ -6,6 +6,7 @@ using Code.ProvidersModule;
 using Code.ServiceModule;
 using Code.UIModule;
 using Code.ViewModule;
+using CodeBase.Hero;
 using Leopotam.Ecs;
 using NTC.Global.Pool;
 using UnityEngine;
@@ -33,6 +34,7 @@ namespace Code.ECSModule.Systems.EntryPoint
             player.MoveTransform = playerGameObject.GetComponent<PlayerView>().MoveTransform;
             player.Speed = playerGameObject.GetComponent<PlayerView>().Speed;
             player.PlayerGameObject = playerGameObject;
+            player.animator = playerGameObject.GetComponent<PlayerAnimator>();      
             
             playerEntity.Get<PlayerHPComponent>().HP = playerGameObject.GetComponent<PlayerView>().HP;
             playerEntity.Get<PlayerHPComponent>().HPBar = playerGameObject.GetComponent<PlayerView>().HPBar;
@@ -58,10 +60,9 @@ namespace Code.ECSModule.Systems.EntryPoint
             playerInput.Joystick = _sceneData.playerJoystick;
             
             CameraSetup.Setup(_sceneData.Camera, player.MoveTransform);
-
+            RuntimeData.PlayerOnPlayerBase = true;
 
             List<EcsEntity> enemies = new List<EcsEntity>();
-
             enemies = EnemySpawnerService.SpawnEnemies(_configuration.enemyCount, _configuration, ref _ecsWorld, _sceneData, playerEntity);
             RuntimeData.storage = new EntitiesStorageService(enemies, playerEntity);
             //storage = new EntitiesStorageService(enemies, playerEntity, weaponEntity);
