@@ -1,3 +1,4 @@
+using CodeBase.Hero;
 using Leopotam.Ecs;
 using UnityEngine;
 using UnityEngine.AI;
@@ -13,5 +14,6 @@ namespace Code.ECSModule.Components
         public float Damage;
         public NavMeshAgent Agent;
         public float meleeAttackDistance;
+        public EnemyAnimator animator;
     }
 }

@@ -5,6 +5,7 @@ using Code.ECSModule.Events;
 using Code.LogicModule;
 using Code.ProvidersModule;
 using Code.ViewModule;
+using CodeBase.Hero;
 using Leopotam.Ecs;
 using NTC.Global.Pool;
 using UnityEngine;
@@ -25,9 +26,10 @@ namespace Code.ServiceModule
                 GameObject enemyGameObject = NightPool.Spawn(configuration.enemyPrefab, MeshPlaneRandomizer.GetSpawnPositionEnemy(sceneData.EnemyBasePlaneMesh));
                 enemyGameObject.GetComponent<EnemyProvider>().enemyEntity = enemyEntity;
                 enemyGameObject.GetComponent<EnemyProvider>()._world = ecsWorld;
-                
+
                 ref var enemy = ref enemyEntity.Get<EnemyHeroComponent>();
-                
+                enemy.animator = enemyGameObject.GetComponent<EnemyAnimator>();
+
                 enemy.Agent = enemyGameObject.GetComponent<EnemyView>().Agent;
                 enemy.EnemyGameObject = enemyGameObject.GetComponent<EnemyView>().EnemyGameObject;
                 enemy.target = playerEntity.Get<PlayerHeroComponent>().MoveTransform;
@@ -50,11 +52,18 @@ namespace Code.ServiceModule
                     
                     enemyEntity.Get<HaveLootComponent>().loot = lootEntity;
                 }
-                
-                if(playerEntity.Get<PlayerHeroComponent>().PlayerGameObject.GetComponent<PlayerProvider>().onPlayerBase)
+
+                if (playerEntity.Get<PlayerHeroComponent>().PlayerGameObject.GetComponent<PlayerProvider>()
+                    .onPlayerBase)
+                {
                     enemyEntity.Get<PlayerOnPlayerBaseEvent>();
+                    enemy.animator.SetWalk();
+                }
                 else
+                {
                     enemyEntity.Get<PlayerOnEnemyBaseEvent>();
+                    enemy.animator.SetRun();
+                }
                 
                 enemies.Add(enemyEntity);
             }

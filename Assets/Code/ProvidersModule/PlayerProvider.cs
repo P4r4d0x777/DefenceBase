@@ -24,6 +24,7 @@ namespace Code.ProvidersModule
                     //enemy state machine?
                     enemy.Del<PlayerOnPlayerBaseEvent>();
                     enemy.Get<PlayerOnEnemyBaseEvent>();
+                    enemy.Get<EnemyHeroComponent>().animator.SetRun();
                 }
 
                 if (storage.EnemyEntities.Count != 0)
@@ -45,6 +46,7 @@ namespace Code.ProvidersModule
                 {
                     enemy.Del<PlayerOnEnemyBaseEvent>();
                     enemy.Get<PlayerOnPlayerBaseEvent>();
+                    enemy.Get<EnemyHeroComponent>().animator.SetWalk();
                 }
 
                 storage.PlayerEntity.Del<PlayerRotateToEnemyEvent>();
