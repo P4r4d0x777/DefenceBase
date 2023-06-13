@@ -6,9 +6,10 @@ namespace Code.ECSModule.Systems.PlayerSystems
 {
     public class PlayerAnimatorSystem : IEcsRunSystem
     {
-        private EcsFilter<PlayerHeroComponent, PlayerStartMovingOnEnemyBaseEvent> filter1;
-        private EcsFilter<PlayerHeroComponent, PlayerStartMovingOnPlayerBaseEvent> filter2;
-        private EcsFilter<PlayerHeroComponent, PlayerStopMovingEvent> filter3;
+        private EcsFilter<PlayerHeroComponent, PlayerStartMovingOnEnemyBaseEvent>.Exclude<PlayerJumping> filter1;
+        private EcsFilter<PlayerHeroComponent, PlayerStartMovingOnPlayerBaseEvent>.Exclude<PlayerJumping> filter2;
+        private EcsFilter<PlayerHeroComponent, PlayerStopMovingEvent>.Exclude<PlayerJumping> filter3;
+        private EcsFilter<PlayerHeroComponent, JumpEvent> filter4;
         public void Run()
         {
             foreach (var i in filter1)
@@ -31,6 +32,16 @@ namespace Code.ECSModule.Systems.PlayerSystems
                 player.animator.SetIdle();
                 
                 filter3.GetEntity(i).Del<PlayerStopMovingEvent>();
+            }
+            foreach (var i in filter4)
+            {
+                ref var player = ref filter4.Get1(i);
+                player.animator.SetJump();
+                
+                ref var entity = ref filter4.GetEntity(i);
+                entity.Get<PlayerJumping>();
+                
+                filter4.GetEntity(i).Del<JumpEvent>();
             }
         }
     }

@@ -20,7 +20,6 @@ namespace Code.ECSModule.Systems.EntryPoint
         private SceneData _sceneData;
         public void Init()
         {
-
             EcsEntity playerEntity = _ecsWorld.NewEntity();
 
             ref var player = ref playerEntity.Get<PlayerHeroComponent>();
@@ -68,8 +67,11 @@ namespace Code.ECSModule.Systems.EntryPoint
             //storage = new EntitiesStorageService(enemies, playerEntity, weaponEntity);
             // убрать из плеер тригера и добавить в enemiesstorageservice тут создать это хранилище через конструктор и прокинуть В ТРИГЕР чекер?
             playerGameObject.GetComponent<PlayerProvider>().storage = RuntimeData.storage;
-
-
+            playerGameObject.GetComponent<PlayerProvider>().playerEntity = playerEntity;
+            playerGameObject.GetComponentInChildren<HeroAnimatorProvider>().playerEntity = playerEntity;
+            
+            _sceneData.JumpButton.onClick.AddListener(()=> playerGameObject.GetComponent<PlayerProvider>().DoJump());
+            
             EcsEntity enemySpawner = _ecsWorld.NewEntity();
             enemySpawner.Get<EnemySpawnerComponent>().enemyFrequency = _configuration.enemyFrequency;
         }

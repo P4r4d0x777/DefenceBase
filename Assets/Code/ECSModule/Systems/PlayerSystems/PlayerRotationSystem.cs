@@ -23,8 +23,10 @@ namespace Code.ECSModule.Systems.PlayerSystems
                 ref var player = ref _filter1.Get1(i);
                 ref var playerInput = ref _filter1.Get2(i);
                 ref var playerRotation = ref _filter1.Get3(i);
-
-
+                
+                
+                Debug.Log(playerInput.Joystick.Horizontal);
+                Debug.Log(playerInput.Joystick.Vertical);
                 if (playerInput.Joystick.Horizontal != 0 || playerInput.Joystick.Vertical != 0)
                 {
                     playerRotation.RotateTransform.rotation = Quaternion.LookRotation(playerInput.Direction);
@@ -53,7 +55,7 @@ namespace Code.ECSModule.Systems.PlayerSystems
                 if (RuntimeData.PlayerOnPlayerBase == false && player.animator.CurrentState != "Shoot")
                     playerEntity.Get<PlayerStartMovingOnEnemyBaseEvent>();
 
-                if (RuntimeData.PlayerOnPlayerBase == false && RuntimeData.storage.EnemyEntities.Count == 0 && player.animator.CurrentState != "Idle")
+                else if (RuntimeData.PlayerOnPlayerBase == false && RuntimeData.storage.EnemyEntities.Count == 0 && player.animator.CurrentState != "Idle")
                     playerEntity.Get<PlayerStopMovingEvent>();
 
 

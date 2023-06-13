@@ -13,7 +13,17 @@ namespace Code.ProvidersModule
     public class PlayerProvider : MonoBehaviour
     {
         public EntitiesStorageService storage;
-
+        public EcsEntity playerEntity;
+        private bool onPlayerBase;
+        private void Awake()
+        {
+            onPlayerBase = true;
+        }
+        public void DoJump()
+        {
+            if(!playerEntity.Has<PlayerJumping>() && onPlayerBase)
+                playerEntity.Get<JumpEvent>();
+        }
         private void OnTriggerExit(Collider other)
         {
             if (other.gameObject.layer == 13)
@@ -25,7 +35,13 @@ namespace Code.ProvidersModule
                     //enemy state machine?
                     enemy.Del<PlayerOnPlayerBaseEvent>();
                     enemy.Get<PlayerOnEnemyBaseEvent>();
+                    
+                    playerEntity.Del<PlayerStopMovingEvent>();
+                    playerEntity.Del<PlayerStartMovingOnPlayerBaseEvent>();
+                    
+                    playerEntity.Del<PlayerJumping>();
                     enemy.Get<EnemyHeroComponent>().animator.SetRun();
+                    onPlayerBase = false;
                 }
 
                 if (storage.EnemyEntities.Count != 0)
@@ -44,6 +60,7 @@ namespace Code.ProvidersModule
                     enemy.Del<PlayerOnEnemyBaseEvent>();
                     enemy.Get<PlayerOnPlayerBaseEvent>();
                     enemy.Get<EnemyHeroComponent>().animator.SetWalk();
+                    onPlayerBase = true;
                 }
 
                 storage.PlayerEntity.Del<PlayerRotateToEnemyEvent>();
