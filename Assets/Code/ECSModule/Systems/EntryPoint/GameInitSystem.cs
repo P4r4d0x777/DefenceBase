@@ -74,6 +74,8 @@ namespace Code.ECSModule.Systems.EntryPoint
             
             EcsEntity enemySpawner = _ecsWorld.NewEntity();
             enemySpawner.Get<EnemySpawnerComponent>().enemyFrequency = _configuration.enemyFrequency;
+            
+            StepsTraceService.Init(_configuration.stepTrace);
         }
 
         public void InitializePlayer()

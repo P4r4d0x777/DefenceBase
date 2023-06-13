@@ -7,7 +7,8 @@ namespace Code.DataModule
     {
         [Header("Player")]
         public GameObject playerPrefab;
-
+        public GameObject stepTrace;
+        
         [Header("Enemy")] 
         public GameObject enemyPrefab;
         [Tooltip("Count of enemies on spawn")] public int enemyCount;
